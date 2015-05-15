@@ -33,13 +33,12 @@ myStopWords <- c("case", "western", "however", "also", "actually", "something", 
 ## Nothing below this line needs to be changed ########################
 
 # load or install the required R packages for reading Excel files and data manipulation:
-if (!require(xlsx)) {install.packages("xlsx")}
-if (!require(plyr)) {install.packages("plyr")}
+if (!require(xlsx)) {install.packages("xlsx"); library(xlsx)}
 # load or install R packages required specifically for doing a word cloud:
 #   see: http://www.listendata.com/2014/11/create-wordcloud-with-r.html
-if (!require(wordcloud)) {install.packages("wordcloud")}
-if (!require(tm)) {install.packages("tm")}
-if (!require(ggplot2)) {install.packages("ggplot2")}
+if (!require(wordcloud)) {install.packages("wordcloud"); library(wordcloud)}
+if (!require(tm)) {install.packages("tm"); library(tm)}
+if (!require(ggplot2)) {install.packages("ggplot2"); library(ggplot2)}
 
 # define a function to generate a word cloud:
 doWordCloud <- function(docs ,myStopWords = c("the","a"), x.min.freq = 5){
