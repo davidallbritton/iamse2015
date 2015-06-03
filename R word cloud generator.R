@@ -35,10 +35,8 @@ myStopWords <- c("case", "western", "however", "also", "actually", "something", 
 # load or install the required R packages for reading Excel files and data manipulation:
 if (!require(xlsx)) {install.packages("xlsx"); library(xlsx)}
 # load or install R packages required specifically for doing a word cloud:
-#   see: http://www.listendata.com/2014/11/create-wordcloud-with-r.html
 if (!require(wordcloud)) {install.packages("wordcloud"); library(wordcloud)}
 if (!require(tm)) {install.packages("tm"); library(tm)}
-if (!require(ggplot2)) {install.packages("ggplot2"); library(ggplot2)}
 
 # define a function to generate a word cloud:
 doWordCloud <- function(docs ,myStopWords = c("the","a"), x.min.freq = 5){
@@ -46,11 +44,6 @@ doWordCloud <- function(docs ,myStopWords = c("the","a"), x.min.freq = 5){
   # docs = vector of texts to use in corpus, one text per row
   # myStopWords = vector of words to exclude from the word cloud
   # min.freq = minimum word frequency for inclusion in wordcloud; default = 5
-  #
-  #   This funciton based on an example from:
-  #    http://www.listendata.com/2014/11/create-wordcloud-with-r.html
-  #   for more examples also see:  
-  #    http://onertipaday.blogspot.com/2011/07/word-cloud-in-r.html
   #
   # clean up the documents vector:
   toSpace <- content_transformer(function(x,pattern) gsub(pattern," ", x))
@@ -67,15 +60,8 @@ doWordCloud <- function(docs ,myStopWords = c("the","a"), x.min.freq = 5){
   toString <- content_transformer(function(x, from, to) gsub(from, to, x))
   docs <- tm_map(docs, toString, "Pharm Web", "Pharmweb")
   #
-  dtm <- DocumentTermMatrix(docs)
-  #
-  freq <- sort(colSums(as.matrix(dtm)), decreasing=TRUE)
-  wf <- data.frame(word=names(freq), freq=freq)
-  #
-  p <- ggplot(subset(wf, freq>x.min.freq), aes(word, freq))
-  p <-p+ geom_bar(stat="identity")
-  p <-p+ theme(axis.text.x=element_text(angle=45, hjust=1))
-  #
+  dtm <- DocumentTermMatrix(docs)                             # create document-term matrix of word counts
+  freq <- sort(colSums(as.matrix(dtm)), decreasing=TRUE)      # create vector of word frequencies
   wordcloud(names(freq), freq, min.freq=x.min.freq, colors=brewer.pal(6,"Dark2"),random.order=FALSE)
 }
 
