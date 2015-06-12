@@ -1,6 +1,7 @@
 ## R source file for creating a word cloud from an Excel file
 ## 
 ## David Allbritton, 2015
+##  see: https://github.com/davidallbritton/iamse2015
 ##
 ## Install R and RStudio, place this file in the same folder as the
 ## Excel file containing the texts, and then click this file to run it.
